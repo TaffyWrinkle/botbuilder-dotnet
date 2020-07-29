@@ -60,10 +60,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Adaptive.Generators
                 var fallbackLocale = LGResourceLoader.FallbackLocale(locale, resourceMapping.Keys.ToList());
                 var resources = resourceMapping[fallbackLocale];
 
-                var resource = resources.FirstOrDefault(u => LGResourceLoader.ParseLGFileName(u.Id).prefix.ToLowerInvariant() == LGResourceLoader.ParseLGFileName(id).prefix.ToLowerInvariant());
+                var resourceName = Path.GetFileName(PathUtils.NormalizePath(id));
+
+                var resource = resources.FirstOrDefault(u => LGResourceLoader.ParseLGFileName(u.Id).prefix.ToLowerInvariant() == LGResourceLoader.ParseLGFileName(resourceName).prefix.ToLowerInvariant());
                 if (resource == null)
                 {
-                    throw new Exception($"There is no matching LG resource for {id}");
+                    throw new Exception($"There is no matching LG resource for {resourceName}");
                 }
                 else
                 {
